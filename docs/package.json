@@ -1,0 +1,24 @@
+{
+  "name": "vuepress",
+  "version": "0.0.1",
+  "description": "デザインツールFigmaの紹介",
+  "main": "",
+  "repository": "https://github.com/junkawa/figma_docs",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@vuepress/plugin-back-to-top": "^1.3.1",
+    "@vuepress/plugin-google-analytics": "^1.5.2",
+    "@vuepress/plugin-medium-zoom": "^1.3.1",
+    "markdown-it-footnote": "^3.0.2",
+    "markdown-it-mark": "^3.0.0",
+    "markdown-it-multimd-table": "^4.0.3",
+    "vuepress": "^1.5.3",
+    "vuepress-plugin-container": "^2.1.4",
+    "vuepress-plugin-mathjax": "^1.2.8",
+    "vuepress-plugin-sitemap": "^2.3.1"
+  }
+}

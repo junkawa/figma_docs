@@ -1,0 +1,17 @@
+{
+    "env": {
+        "node": true,
+        "browser": true
+    },
+    "plugins": [],
+    "extends": [
+        "eslint:recommended",
+        "google"
+    ],
+    "rules": {
+        "require-jsdoc": "off"
+    },
+    "parserOptions": {
+        "ecmaVersion": 2017
+    }
+}

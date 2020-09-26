@@ -3,10 +3,13 @@
         "node": true,
         "browser": true
     },
-    "plugins": [],
+    "plugins": [
+        "vue"
+    ],
     "extends": [
         "eslint:recommended",
-        "google"
+        "google",
+        "plugin:vue/essential"
     ],
     "rules": {
         "require-jsdoc": "off"

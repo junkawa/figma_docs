@@ -1,21 +1,9 @@
 let browser;
 let page;
-const imagePath = './images/';
 
-async function initBrowser() {
+async function initBrowser(launchOption) {
   const puppeteer = require('puppeteer');
-  // 日本語拡張 使用時
-  // https://pptr.dev/#?product=Puppeteer&version=v5.3.0&show=api-working-with-chrome-extensions
-  // const pathToExtension = require("path").join(__dirname, "../");
-  // const browser = await puppeteer.launch({
-  //   headless: false,
-  //   args: [
-  //     `--disable-extensions-except=${pathToExtension}`,
-  //     `--load-extension=${pathToExtension}`,
-  //   ],
-  // });
-  // 日本語拡張 未使用時
-  browser = await puppeteer.launch();
+  browser = await puppeteer.launch(launchOption);
 
   page = await browser.newPage();
   await page.setViewport({width: 1440, height: 900});
@@ -39,21 +27,47 @@ async function figmaLogin() {
   await page.waitForTimeout(5000); // ミリ秒
 }
 
-async function takeScreenShot(name, selector) {
-  const item = await page.$(selector);
-  await item.screenshot({path: imagePath+name+'.png'});
-}
-
 async function finishBrowser() {
   await browser.close();
 }
 
-(async () => {
-  await initBrowser();
+async function takeScreenShot(name, selector, imagePath) {
+  const item = await page.$(selector);
+  await item.screenshot({path: imagePath+name+'.png'});
+}
+
+async function takeScreenShots(imagePath) {
+  await takeScreenShot('toolbar',
+      'div.toolbar_view--toolbar--2396w', imagePath);
+  await takeScreenShot('layersPanel',
+      'div.left_panel--panelContainer--1OR1n', imagePath);
+  await takeScreenShot('propertiesPanel',
+      'div.properties_panel--panelContainer--p2KwC', imagePath);
+}
+
+async function doScreenshot(launchOption, imagePath) {
+  await initBrowser(launchOption);
 
   await figmaLogin();
-
-  await takeScreenShot('toolbar', 'div.toolbar_view--toolbar--2396w');
+  await takeScreenShots(imagePath);
 
   await finishBrowser();
+}
+
+(async () => {
+  // English
+  await doScreenshot({}, './images/screenshot/');
+
+  // 日本語拡張 使用時
+  // https://pptr.dev/#?product=Puppeteer&version=v5.3.0&show=api-working-with-chrome-extensions
+  const pathToExtension = require('path').join(
+      __dirname, './figma_jp-master');
+  await doScreenshot(
+      {
+        headless: false,
+        args: [
+          `--disable-extensions-except=${pathToExtension}`,
+          `--load-extension=${pathToExtension}`,
+        ],
+      }, './images/screenshot/ja/');
 })();

@@ -1,12 +1,14 @@
 let browser;
 let page;
 
+const screenSize = {width: 1440, height: 1024};
+
 async function initBrowser(launchOption) {
   const puppeteer = require('puppeteer');
   browser = await puppeteer.launch(launchOption);
 
   page = await browser.newPage();
-  await page.setViewport({width: 1440, height: 900});
+  await page.setViewport(screenSize);
 }
 
 async function figmaLogin() {
@@ -31,25 +33,45 @@ async function finishBrowser() {
   await browser.close();
 }
 
-async function takeScreenShot(name, selector, imagePath) {
+async function takeScreenShot(imagePath, selector) {
   const item = await page.$(selector);
-  await item.screenshot({path: imagePath+name+'.png'});
+  await item.screenshot({path: imagePath});
 }
 
-async function takeScreenShots(imagePath) {
-  await takeScreenShot('toolbar',
-      'div.toolbar_view--toolbar--2396w', imagePath);
-  await takeScreenShot('layersPanel',
-      'div.left_panel--panelContainer--1OR1n', imagePath);
-  await takeScreenShot('propertiesPanel',
-      'div.properties_panel--panelContainer--p2KwC', imagePath);
+function cropHeightOneThird(imagePath) {
+  const Jimp = require('jimp');
+  Jimp.read(imagePath, (err, image) => {
+    if (err) {
+      throw err;
+    }
+    image.crop(0, 0, image.bitmap.width, image.bitmap.height/3)
+        .write(imagePath);
+  });
 }
 
-async function doScreenshot(launchOption, imagePath) {
+async function takeScreenShots(imageDir) {
+  // toolbar
+  await takeScreenShot(imageDir+'toolbar.png',
+      'div.toolbar_view--toolbar--2396w');
+
+  // layersPanel
+  const layersPanelPath = imageDir+'layersPanel.png';
+  await takeScreenShot(layersPanelPath,
+      'div.left_panel--panelContainer--1OR1n');
+  cropHeightOneThird(layersPanelPath);
+
+  // propertiesPanel
+  const propertiesPanelPath = imageDir+'propertiesPanel.png';
+  await takeScreenShot(propertiesPanelPath,
+      'div.properties_panel--panelContainer--p2KwC');
+  cropHeightOneThird(propertiesPanelPath);
+}
+
+async function doScreenshot(launchOption, imageDir) {
   await initBrowser(launchOption);
 
   await figmaLogin();
-  await takeScreenShots(imagePath);
+  await takeScreenShots(imageDir);
 
   await finishBrowser();
 }

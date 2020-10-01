@@ -9,7 +9,7 @@
     "extends": [
         "eslint:recommended",
         "google",
-        "plugin:vue/essential"
+        "plugin:vue/recommended"
     ],
     "rules": {
         "require-jsdoc": "off"

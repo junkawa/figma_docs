@@ -60,5 +60,11 @@ module.exports = {
         hostname: 'https://figma.muise.jp',
       },
     ],
+    [
+      '@vuepress/google-analytics',
+      {
+        ga: 'UA-2463455-12', // UA-00000000-0
+      },
+    ],
   ],
 };

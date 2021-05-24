@@ -51,6 +51,16 @@ module.exports = {
   },
 
   /**
+   * https://v1.vuepress.vuejs.org/guide/markdown.html#advanced-configuration
+   */
+  markdown: {
+    extendMarkdown: (md) => {
+      // use more markdown-it plugins!
+      md.use(require('markdown-it-link-preview'));
+    },
+  },
+
+  /**
    * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
    */
   plugins: ['@vuepress/plugin-back-to-top', '@vuepress/plugin-medium-zoom',

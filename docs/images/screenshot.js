@@ -1,3 +1,4 @@
+const Jimp = require('jimp');
 let browser;
 let page;
 
@@ -38,13 +39,13 @@ async function takeScreenShot(imagePath, selector) {
   await item.screenshot({path: imagePath});
 }
 
-function cropHeightOneThird(imagePath) {
-  const Jimp = require('jimp');
+function crop(imagePath, widthRate, heightRate) {
   Jimp.read(imagePath, (err, image) => {
     if (err) {
       throw err;
     }
-    image.crop(0, 0, image.bitmap.width, image.bitmap.height/3)
+    image.crop(0, 0, image.bitmap.width*widthRate,
+        image.bitmap.height*heightRate)
         .write(imagePath);
   });
 }
@@ -58,13 +59,13 @@ async function takeScreenShots(imageDir) {
   const layersPanelPath = imageDir+'layersPanel.png';
   await takeScreenShot(layersPanelPath,
       'div.left_panel--panelContainer--1OR1n');
-  cropHeightOneThird(layersPanelPath);
+  crop(layersPanelPath, 1.0, 0.33);
 
   // propertiesPanel
   const propertiesPanelPath = imageDir+'propertiesPanel.png';
   await takeScreenShot(propertiesPanelPath,
       'div.properties_panel--panelContainer--p2KwC');
-  cropHeightOneThird(propertiesPanelPath);
+  crop(propertiesPanelPath, 1.0, 0.33);
 }
 
 async function doScreenshot(launchOption, imageDir) {

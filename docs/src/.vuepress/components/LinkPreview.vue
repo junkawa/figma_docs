@@ -1,15 +1,36 @@
-/**
- * Custom Styles here.
- *
- * ref：https://v1.vuepress.vuejs.org/config/#index-styl
- */
+<template>
+  <div class="link-preview-widget">
+    <a
+      href="https://github.com/junkawa/figma_jp"
+      rel="noopener"
+      target="_blank"
+    >
+      <div class="link-preview-widget-title">{{ title }}</div>
+      <div class="link-preview-widget-description">{{ description }}</div>
+      <div class="link-preview-widget-url">{{ site_name }}</div>
+    </a>
+    <a
+      class="link-preview-widget-image"
+      href="https://github.com/junkawa/figma_jp"
+      rel="noopener"
+      style="background-image: url('https://repository-images.githubusercontent.com/292775522/57a0a600-f246-11ea-9b1a-078a5abb05e8');"
+      target="_blank"
+    />
+  </div>
+</template>
 
-.home .hero img
-  max-width 450px!important
+<script>
+export default {
+  props: {url: String},
+  data() {
+    return {
 
-img
-  filter drop-shadow(5px 5px 2px rgba(0,0,0,0.6))
+    };
+  },
+};
+</script>
 
+<style scoped>
 .link-preview-widget
 {
     display: table;
@@ -107,3 +128,4 @@ img
     -webkit-box-flex: 0;
     flex: 0;
 }
+</style>
